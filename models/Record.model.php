@@ -74,7 +74,7 @@ class Record
 		$row = mysql_fetch_assoc($result);
 
 		$status = 'Quantified: ' . $row['category'] . ':' . $row['action'];
-		if (strlen($row['detail'] > 0)) $status .= ':' . $row['detail'];
+		if (strlen($row['detail']) > 0) $status .= ':' . $row['detail'];
 		$status .= ' @ ' . $row['date'];
 
 		$tweet = array(
