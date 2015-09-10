@@ -72,6 +72,12 @@ class QuantifyMeFrameworkValidation
 		$this->validateDescription(FALSE);
 	}
 
+	public function validateUserEmail()
+	{
+		if (isset($_REQUEST['email'])) $_REQUEST['email'] = $this->_validate->sanitizeEmail($_REQUEST['email']);
+		$this->validateEmail(TRUE);
+	}
+
 	private function validateKey($required) {
 		if (isset($_REQUEST['key']) && !empty($_REQUEST['key'])) {
 			$this->_logger->debug('Checking API Key: ' . $_REQUEST['key']);
@@ -179,6 +185,16 @@ class QuantifyMeFrameworkValidation
 			if (!empty($returnError)) $this->reportVariableErrors('invalid', 'description', $returnError);
 		} else if ($required === TRUE) {
 			$this->reportVariableErrors('missing', 'description', '');
+		}
+	}
+
+	private function validateEmail($required) {
+		if (isset($_REQUEST['email']) && !empty($_REQUEST['email'])) {
+			$this->_logger->debug('Checking email: ' . $_REQUEST['email']);
+			$returnError = $this->_validate->validateEmail($_REQUEST['email']);
+			if (!empty($returnError)) $this->reportVariableErrors('invalid', 'email', $returnError);
+		} else if ($required === TRUE) {
+			$this->reportVariableErrors('missing', 'email', '');
 		}
 	}
 

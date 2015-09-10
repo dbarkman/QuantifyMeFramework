@@ -60,7 +60,7 @@ class Record
 				c.name AS category,
 				a.name AS action,
 				r.detail,
-				FROM_UNIXTIME(r.created, '%H:%i:%s %m/%d/%y') AS date,
+				r.created AS date,
 				c.private
 			FROM
 				records r
@@ -73,9 +73,10 @@ class Record
 		$result = mysql_query($sql);
 		$row = mysql_fetch_assoc($result);
 
-		$status = 'Quantified: ' . $row['category'] . ':' . $row['action'];
-		if (strlen($row['detail']) > 0) $status .= ':' . $row['detail'];
-		$status .= ' @ ' . $row['date'];
+		$status = 'Quantified: ' . $row['category'] . ': ' . $row['action'];
+		if (strlen($row['detail']) > 0) $status .= ': ' . $row['detail'];
+		$date = date('H:i:s m/d/y', $row['date']);
+		$status .= ' @ ' . $date;
 
 		$tweet = array(
 			'status' => $status
